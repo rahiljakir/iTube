@@ -1,0 +1,26 @@
+{
+  "name": "itube",
+  "version": "1.0.0",
+  "description": "Small scale video streaming platform, upload and watch from any device at your convenience.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "itube",
+    "videos",
+    "video",
+    "streaming",
+    "paas"
+  ],
+  "author": "@rahyljakyr",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}
