@@ -1,0 +1,244 @@
+Internal one !
+
+DATA SEGMENT
+op1 dw 0BBBBH, 0CCCCH, 0DDDDH, 0EEEEH, 0FFFFH
+op2 dw 0aaaah
+ans dw 6 dup(0)
+DATA ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE, DS:DATA
+START:
+
+mov ax, @data
+mov ds, ax
+add ans, 02h
+
+mov cx, 5 ; Loop counter for the 5 words in op1
+mov di, 0 ; Destination index for ans array
+
+next_multiplication:
+mov ax, 0 ; Clear AX
+mov dx, 0 ; Clear DX
+mov bx, op2
+mov ax, [op1 + di] ; Load a word from op1
+
+mul bx ; Multiply
+add ax, [ans + di] ; Add the previous value in ans
+adc dx, 0 ; Handle any carry
+
+mov [ans + di], ax ; Store the low word of the result
+mov [ans + di + 2], dx ; Store the high word of the result
+
+add di, 2 ; Move to the next word in ans
+loop next_multiplication
+
+CODE ENDS
+END START
+
+--------------------------------------------------------------------------------------------------
+write a program to perform division of a 32-bit number by a 16-bit number
+
+DATA SEGMENT
+dividend dw 0aaaah,0001h
+divisor dw 3 ; 16-bit divisor
+quotient dw 0 ; Quotient (initialize to 0)
+remainder dw 0 ; Remainder (initialize to 0)
+DATA ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE, DS:DATA
+START:
+
+mov ax, @data
+mov ds, ax
+
+; Load the dividend into DX:AX
+mov ax, [dividend]
+mov dx, [dividend + 2]
+
+; Load the 16-bit divisor into AX
+
+; Divide the 32-bit number by the 16-bit divisor
+div [divisor]
+
+; The quotient is in AX, and the remainder is in DX
+
+mov [quotient], ax ; Store the quotient
+mov [remainder], dx ; Store the remainder
+
+CODE ENDS
+END START
+
+----------------------------------------------------------------------------------------------------
+
+Multiplication of two 32 bit number
+
+DATA SEGMENT
+first_low dw 23h
+first_high dw 23h
+second_low dw 5h
+second_high dw 5h
+                                 
+result1 dw 4 dup(0) 
+result2 dw 3 dup(0)
+
+DATA ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE, DS:DATA
+START:
+
+mov ax,@data
+mov ds,ax 
+
+mov ax,second_high
+mul first_low
+
+mov result1 + 2,ax
+mov result1 + 4,dx
+
+mov ax,second_high
+mul first_high
+
+add ax,result1 + 4
+mov result1 +4,ax
+mov result1+6,dx   
+
+mov ax,second_low
+mul first_low    
+
+mov result2,ax
+mov result2 + 2,dx
+
+mov ax,second_high
+mul first_high
+
+add ax,result2 + 2
+mov result2 +2,ax
+mov result2+4,dx   
+
+mov ax,result1
+add ax,result2
+mov result1,ax  
+
+mov ax,result1+2
+adc ax,result2 + 2
+mov result1+2,ax
+
+mov ax,result1+4
+adc ax,result2  +4
+mov result1+4,ax
+
+mov ax,result1 + 6
+adc ax,0
+mov result1+6,ax
+
+CODE ENDS
+END START
+
+Max number in array of 16 bit
+
+DATA SEGMENT      
+array dw 1,4,3,6,3
+size dw 5
+MAX DW ?                       
+DATA ENDS     
+CODE SEGMENT
+ASSUME CS:CODE,DS:DATA 
+START:
+
+MOV AX,@DATA
+MOV DS,AX  
+
+MOV CX,SIZE
+
+MOV ax,array
+mov max, ax
+mov di,2
+dec cx
+itr:
+
+mov ax,array + di
+cmp ax,max
+jle nochange 
+
+mov max,ax
+nochange:
+add di,2 
+dec cx
+jnz itr
+CODE ends
+end start
+----------------------------------------------------------------------------------------------------------------------------------------------
+cube of number
+
+DATA SEGMENT
+         
+number dw 3
+square dw 2 dup(0)
+cube dw 3 dup(0)    
+              
+DATA ENDS     
+CODE SEGMENT
+ASSUME CS:CODE,DS:DATA 
+START:
+MOV AX,@DATA
+MOV DS,AX  
+
+mov ax,number
+mov bx,number
+
+mul bx
+
+mov square,ax
+mov square + 2,dx
+mov ax,number
+mov bx,square
+
+mul bx
+
+mov cube,ax
+mov cube + 2,dx
+
+mov bx, square +2
+mul bx
+
+add cube + 2,ax
+adc dx,0
+mov cube + 4,dx
+
+CODE ends
+end start
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Factorial 
+
+DATA SEGMENT
+number db 6
+fact dw ?
+DATA ENDS
+
+CODE SEGMENT
+ASSUME CS:CODE,DS:DATA
+START:
+MOV AX,DATA
+MOV DS,AX
+MOV AX,0000H
+mov cl,0 
+
+mov al,1
+mov bl,number
+loop:
+mul bx
+dec bx
+jnz loop 
+
+mov  byte ptr fact+ 1,ah
+mov byte ptr fact,al
+
+CODE ENDS
+END START
+
+
